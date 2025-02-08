@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request a Class</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body>
+    <style>
+        *{
+            margin: 0;
+            box-sizing: border-box;
+            background-color: rgb(221, 228, 234);
+          overflow: hidden;
+            background-repeat: no-repeat;
+     
+            background-attachment: fixed;
+        }
+        .form{
+            position: absolute;
+            margin: 200px;
+            margin-top: 80px;
+            margin-right: 600px;
+            margin-left: 300px;
+        border: solid rgb(242, 237, 247);
+        border-radius: 100px;
+        padding: 100px;
+       
+        }
+        .form label{
+            color: rgb(11, 11, 11);
+
+        }
+        .topic label{
+            margin: 20px;
+            text-indent: 10%;
+            margin-bottom: 3px;
+
+        }
+        button{
+            color: aliceblue;
+            background-color: #34495e;
+            border-radius: 10px;
+            margin-left: 100px;
+            width: 150px;
+            height: 50px;
+
+        }
+        
+    </style>
+     
+<div class="main-content">
+    <div class="divnav">
+       <nav class="navbar navbar-expand-lg navbar-light  #34495e;">
+           <a class="navbar-brand" href="#">
+               <img src='https://th.bing.com/th?id=OIP.CtBCsPNGxQk81Y0jYY61jgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2' 
+                    width="45" height="45"  class="d-inline-block align-top" alt="">
+               E.Book Community
+           </a>
+        </nav>
+
+    </div>
+    <div class="form">
+    <h2>Request a Class</h2>
+    <form method="post" action="{% url 'base:request_class' %}">
+        {% csrf_token %}
+        <div class="topic">
+        <label for="topic">TOPIC</label>
+        <input type="text" id="topic" name="topic" placeholder="ENTER TOPIC " required ><br><br>
+    </div>
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="">Select</option>
+            <option value="DataScience">DataScience</option>
+            <option value="M1(Btech)">M1(Btech)</option>
+            <option value="SPPM">SPPM</option>
+            <option value="ADE">ADE</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+            <option value="M1">Mathematics 1 (M1)</option>
+        
+        </select><br><br>
+
+        <label for="time">Class Time:</label>
+        <input type="datetime-local" id="time" name="time" required><br><br>
+
+        <button type="submit">Request Class</button>
+    </form>
+</div>
+<script>
+    // Function to set the default date and time
+    function setDefaultDateTime() {
+      const timeInput = document.getElementById('time');
+      const now = new Date();
+
+      
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+
+      const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+      timeInput.value = formattedDateTime;
+    }
+
+
+    window.onload = setDefaultDateTime;
+  </script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></scrip>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Approval Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px; /* Limit the width for better readability */
+            margin: auto; /* Center the container */
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px; /* Space below the heading */
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6; /* Better line spacing for readability */
+        }
+
+        .button {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 10px 0;
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .book-image {
+            max-width: 200px; /* Ensure the image doesn't get too large */
+            margin: 10px 0;
+            border-radius: 5px; /* Rounded corners for images */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for images */
+        }
+
+        .pdf-section {
+            margin-top: 20px; /* Space above the PDF section */
+            padding: 10px;
+            border: 1px solid #ccc; /* Border around the PDF section */
+            border-radius: 5px; /* Rounded corners for the PDF section */
+            background-color: #f9f9f9; /* Light background for the PDF section */
+        }
+
+        .pdf-scroll {
+            overflow: auto; /* Allow scrolling if the PDF is too large */
+            max-height: 400px; /* Limit the height of the PDF viewer */
+        }
+
+        #pdf-viewer {
+            width: 100%;
+            height: 100%; /* Full height of the container */
+            border: none; /* No border for the iframe */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src='https://th.bing.com/th?id=OIP.CtBCsPNGxQk81Y0jYY61jgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2' width="100" height="100" class="d-inline-block align-top" alt="">
+            E.Book Community
+        </a>
+    </nav>
+    <div class="container">
+        <h1>FROM E.BOOK COMMUNITY</h1>
+        <h2>Approval Request for New Book Submission</h2>
+        
+        <p><strong>Title:</strong> {{ book.title }}</p>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Description:</strong> {{ book.description }}</p>
+        <p><strong>Category:</strong> {{ book.category }}</p>
+        <p><strong>Selected Item:</strong> {{ book.selected_item }}</p>
+
+        {% if book.image %}
+            <p><strong>Book Image:</strong></p>
+            <img src="{{ book.image.url }}" alt="Book Image" class="book-image">
+        {% else %}
+            <p><strong>Book Image:</strong> No image uploaded.</p>
+        {% endif %}
+
+        {% if book.pdf %}
+            <p><strong>PDF File:</strong> <a href="{{ book.pdf.url }}">Download PDF</a></p>
+        {% else %}
+            <p><strong>PDF File:</strong> No PDF uploaded.</p>
+        {% endif %}
+
+        <div class="pdf-section" id="pdf-section" style="display: none;">
+            <h3>PDF Preview:</h3>
+            <div class="pdf-scroll">
+                <iframe id="pdf-viewer" src=""></iframe> <!-- The iframe for PDF -->
+            </div>
+        </div>
+
+        <p>Please take action on this submission:</p>
+        <a href="{{ approval_link }}" class="button">Approve</a>
+        <a href="{{ rejection_link }}" class="button">Reject</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" 
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" 
+          crossorigin="anonymous">
+          <link rel="stylesheet" href="{% static 'base/style.css' %}">
+</head>
+<style>
+    /* General Styles */
+body {
+    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+    border-bottom: 2px solid;
+}
+
+.navbar-brand span {
+    font-weight: bold;
+    color:black;
+    margin-left: 8px;
+    font-size: 24px;
+}
+
+.search-form input[type="text"] {
+    width: 300px;
+    padding: 8px;
+    border: 2px solid #007bff;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+}
+
+.search-form button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+/* General Styles */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin-top: 30px;
+    padding: 20px;
+}
+
+/* Error Message */
+.error-message {
+    color: #ff4d4d;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Header Styles */
+h1.text-center {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+/* Results Container */
+.results-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: px;
+}
+
+/* Book Card Styling */
+.book-card {
+    background-color: #fff;
+    width: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.book-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Book Image Styling */
+.book-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Book Details Section */
+.book-details {
+    padding: 15px;
+}
+
+.book-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.book-detail {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* View Button Styling */
+.btn-button {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.btn-button:hover {
+    background-color: #0056b3;
+}
+
+/* No Results Found Message */
+h1.text-center {
+    font-size: 24px;
+    color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .results-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+
+</style>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src='https://static.vecteezy.com/system/resources/previews/000/637/493/original/vector-e-book-icon-symbol-sign.jpg' 
+                 width="40" height="40" alt="E.Book Community Logo">
+            <span>E.Book Community</span>
+        </a>
+        <div class="ml-auto search-form">
+            <form method="GET" action="{% url 'base:searchbar' %}" class="w-100">
+                <input type="text" name="search" placeholder="Search for books..." required>
+                <button type="submit">xSearch</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+       
+        {% if error %}
+            <h2 class="error-message">{{ error }}</h2>
+        {% endif %}
+
+        {% if post %}
+            <h1 class="text-center">Search Results</h1>
+            <div class="results-container">
+                
+                {% for i in post %}
+                    <div class="book-card">
+                        <div class="book-image">
+                            {% if i.image %}
+                                <img src="{{ i.image.url }}" alt="{{ i.title }}">
+                            {% else %}
+                                <img src="https://via.placeholder.com/100x140?text=No+Image" alt="No Image Available">
+                            {% endif %}
+                        </div>
+                        <div class="book-details">
+                            <div>
+                                <h3 class="book-title">{{ i.title }}</h3>
+                                <p class="book-detail"><strong>Author:</strong> {{ i.author }}</p>
+                               
+                                <p class="book-detail"><strong>Category:</strong> {{ i.category }}</p>
+                                <p class="book-detail"><strong>Rating:</strong> {{ i.rating }}</p>
+                            </div>
+                            <a href="{% url 'base:book_detail' i.pk %}" class="btn btn-button">View</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h1 class="text-center">No results found.</h1>
+        {% endif %}
+    </div>
+    </div>
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" 
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" 
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" 
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" 
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" 
+            integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" 
+            crossorigin="anonymous"></script>
+</body>
+</html>

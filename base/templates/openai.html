@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <style>
+        /* Basic styles for better visualization */
+        .chat-container {
+            width: 300px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        .user-message {
+            color: blue;
+        }
+        .bot-message {
+            color: green;
+        }
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        #userInput {
+            flex-grow: 1;
+            padding: 5px;
+        }
+        #sendButton {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">Chat E.Book Community</div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button id="sendButton" type="button">Send</button>
+        </div>
+    </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sendButton = document.getElementById('sendButton');
+        const userInput = document.getElementById('userInput');
+        const chatMessages = document.getElementById('chatMessages');
+
+        const fetchData = async (prompt) => {
+            let data = new FormData();
+            data.append('prompt', prompt);
+            try {
+                let response = await fetch("/chat-api/", {  // Ensure the URL matches your Django routing
+                    method: 'POST',
+                    body: data,
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`Network response was not ok: ${response.status} - ${errorText}`);
+                    return `Error: ${response.status} - ${errorText}`;
+                }
+
+                let result = await response.json();
+                return result.response || result.error || "No response from server.";
+            } catch (error) {
+                console.error("Error:", error);
+                return "Something went wrong. Please try again.";
+            }
+        };
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const sendMessage = async () => {
+            const prompt = userInput.value;
+
+            if (prompt.trim() === "") return;
+
+            chatMessages.innerHTML += `<div class="user-message">You: ${prompt}</div>`;
+            const response = await fetchData(prompt);
+            chatMessages.innerHTML += `<div class="bot-message">Bot: ${response}</div>`;
+            chatMessages.scrollTop = chatMessages.scrollHeight;  // Scroll to latest message
+            userInput.value = "";
+        };
+
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    });
+</script>
+</body>
+</html>

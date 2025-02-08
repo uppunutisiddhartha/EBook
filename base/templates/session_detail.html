@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Session</title>
+    <script>
+        const sessionId = "{{ session.session_id }}";
+        const socket = new WebSocket(`ws://127.0.0.1:8000/ws/collaboration/${sessionId}/`);
+
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const textarea = document.getElementById('shared-notes');
+            textarea.value += data.message + "\n";
+        };
+
+        function sendMessage() {
+            const message = document.getElementById('note-input').value;
+            socket.send(JSON.stringify({ message }));
+            document.getElementById('note-input').value = '';
+        }
+    </script>
+</head>
+<body>
+    <h1>Session: {{ session.session_id }}</h1>
+    <textarea id="shared-notes" readonly rows="10" cols="50"></textarea><br>
+    <input type="text" id="note-input" placeholder="Write a note...">
+    <button onclick="sendMessage()">Send</button>
+</body>
+</html>

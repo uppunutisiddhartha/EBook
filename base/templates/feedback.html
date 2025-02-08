@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <style>
+        /* General Reset and Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #e6f7ff, #ccf2ff); /* Soft gradient background */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+            width: 90%;
+            max-width: 400px; /* Max width for larger screens */
+            padding: 40px 30px; /* Increased padding for a spacious feel */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow for depth */
+            text-align: center;
+        }
+
+        h1 {
+            color: #007bff; /* Bright blue for the heading */
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold; /* Bold heading for emphasis */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #007bff; /* Blue border for inputs */
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s; /* Transition for smoother interaction */
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #0056b3; /* Darker blue on focus */
+            box-shadow: 0 0 8px rgba(0, 86, 179, 0.4); /* Soft blue glow on focus */
+            outline: none; /* Remove default outline */
+        }
+
+        .btn {
+            background-color: #007bff; /* Bright blue for button */
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s; /* Transition for background color and scale */
+            font-size: 16px;
+            font-weight: bold; /* Bold button text */
+        }
+
+        .btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666; /* Soft gray for footer text */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px; /* Adjust padding for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="https://th.bing.com/th?id=OIP.CtBCsPNGxQk81Y0jYY61jgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2" width="40" height="40" alt="Logo"> E.Book Community
+        </a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'base:feedback' %}">Give Feedback</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>We Value Your Feedback!</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Submit</button>
+        </form>
+        <div class="footer">Your thoughts help us improve!</div>
+    </div>
+</body>
+</html>

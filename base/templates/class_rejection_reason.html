@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Provide Rejection Reason</title>
+</head>
+<body>
+    {% for lecturer in rejected_lecturers %}
+    <li>{{ lecturer.first_name }} {{ lecturer.last_name }}</li>
+    {% endfor %}
+    <h1>Reject Class: {{ class_request.topic}} <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Request a Class-cancellation</title>
+            <script>
+                function toggleReasonInput() {
+                    const rejectionDropdown = document.getElementById("rejection_reason");
+                    const otherReasonInput = document.getElementById("other_reason_container");
+        
+                    if (rejectionDropdown.value === "other") {
+                        otherReasonInput.style.display = "block";
+                    } else {
+                        otherReasonInput.style.display = "none";
+                    }
+                }
+            </script>
+        </head>
+        <body>
+            <h2>Request a Class</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <label for="topic">Topic:</label>
+                <input type="text" id="topic" name="topic" required><br><br>
+        
+                <label for="time">Class Time  :  {{ class_request.time}}</label>
+               <br>
+        
+                <label for="rejection_reason">Reason for Rejection (if applicable):</label>
+                <select id="rejection_reason" name="rejection_reason" onchange="toggleReasonInput()">
+                    <option value="">-- Select a reason --</option>
+                    <option value="network_issue">Network Issue</option>
+                    <option value="unavailable_time">Unavailable at the Scheduled Time</option>
+                    <option value="personal_emergency">Personal Emergency</option>
+                    <option value="technical_difficulty">Technical Difficulty</option>
+                    <option value="other">Other</option>
+                </select><br><br>
+        
+                <!-- Text area for 'Other' reason, initially hidden -->
+                <div id="other_reason_container" style="display: none;">
+                    <label for="other_reason">Please specify your reason:</label><br>
+                    <textarea id="other_reason" name="other_reason" rows="4" cols="50"></textarea><br><br>
+                </div>
+        
+                <button type="submit">Request Class</button>
+            </form>
+        </body>
+        </html>
+         </h1>
+    
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejection Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        nav {
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        h1 {
+            color: #343a40;
+            animation: fadeIn 1s ease-in;
+        }
+        p {
+            color: #6c757d;
+            animation: fadeIn 1.5s ease-in;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <a class="navbar-brand" href="#">
+            <img src='https://th.bing.com/th?id=OIP.CtBCsPNGxQk81Y0jYY61jgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2' 
+                 width="40" height="40" class="d-inline-block align-top" alt="">
+            E.Book Community
+        </a>
+        <a href="{% url 'base:help.html' %}" class="d-flex align-items-center">
+            <i class="fas fa-headset"></i> Support 
+        </a>
+    </nav>
+    
+    <h1>Your Submission Has Been Rejected</h1>
+    <p>
+        Thank you for sending your work to the <strong>E.Book Community</strong>. 
+        We appreciate the time and effort you put into your submission. 
+        However, after careful review, we are sorry to say that it did not meet our requirements this time.
+    </p>
+    <p>
+        We understand how disappointing this can be, and we encourage you to keep trying. 
+        Many contributors have made changes and resubmitted their work before getting approved.
+    </p>
+    <p>
+        If you want to improve your submission, please feel free to make adjustments and submit it again in the future. 
+        We value your creativity and would love to see your work again.
+    </p>
+    <p>
+        If you have any questions or need help, please reach out to our <a href="{% url 'base:help.html' %}">Support Team</a>. 
+        We are here to assist you.
+    </p>
+    <p>
+        Thank you again for your interest in the <strong>E.Book Community</strong>. We wish you all the best!
+    </p>
+
+    <footer>
+        <p>Best Regards,<br>E.Book Community Team</p>
+    </footer>
+</body>
+</html>

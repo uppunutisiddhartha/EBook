@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Book Details</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
+        /* Custom Styles */
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .email-box {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 576px) {
+            .form-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .btn-primary {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 form-container">
+                <!-- Email Box -->
+                
+
+                <h1>Enter Book Details</h1>
+                <form id="bookDetailsForm" action="/insert_book/" method="POST" enctype="multipart/form-data" onsubmit="return showSuccessModal()">
+                    {% csrf_token %}
+                    <div class="row">
+                        <!-- Book Details Section -->
+                        <div class="col-md-12">
+                            <!-- Book Title -->
+                            <div class="form-group">
+                                <label for="title">Enter Book Title</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Enter book title" required>
+                            </div>
+
+                            <!-- Author -->
+                            <div class="form-group">
+                                <label for="author">Written By</label>
+                                <input type="text" class="form-control" id="author" name="author" placeholder="Enter author's name" required>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="form-group">
+                                <label for="description">Enter Book Subject</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter book description" required></textarea>
+                            </div>
+
+                            <!-- Cover Page and E-Book PDF Side by Side -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="photoUpload">Cover Page</label>
+                                    <input type="file" class="form-control-file" id="photoUpload" name="photo" accept="image/*" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="pdfFile">E-Book (PDF)</label>
+                                    <input type="file" class="form-control-file" id="pdfFile" name="pdfFile" accept="application/pdf" required>
+                                </div>
+                            </div>
+
+                            <!-- Category and Item Selection Side by Side -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="firstDropdown">Select Category:</label>
+                                    <select id="firstDropdown" name="category" class="form-control" onchange="updateSecondDropdown()" required>
+                                        <option value="">-- Select Category --</option>
+                                        <option value="library">E.Library</option>
+                                        <option value="BTech">B.Tech</option>
+                                        <option value="MBA">MBA</option>
+                                        <option value="MCA">MCA</option>
+                                        <option value="Degree">Degree</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="secondDropdown">Select Item:</label>
+                                    <select id="secondDropdown" name="selected_item" class="form-control" required>
+                                        <option value="">-- Select an item --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                    
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Your book details have been uploaded successfully! Please wait for the E.Book Community approval. Thank you for your time.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+    <!-- JavaScript for Dynamic Dropdown -->
+    <script>
+        // JavaScript to handle dynamic dropdown changes
+        const data = {
+            library: ["lovestories", "stories", "bio", "History", "Epics"],
+            BTech: ["Computer Science Engineering", "EEE", "MECH"],
+            MCA: ["1st-Sem", "2nd-Sem", "3rd-Sem", "4th-Sem"],
+            MBA: ["HR", "Finance", "IT"],
+            Degree: ["Other"]
+        };
+
+        function updateSecondDropdown() {
+            const firstDropdown = document.getElementById("firstDropdown").value;
+            const secondDropdown = document.getElementById("secondDropdown");
+
+            // Clear existing options
+            secondDropdown.innerHTML = '<option value="">-- Select an item --</option>';
+
+            if (firstDropdown && data[firstDropdown]) {
+                data[firstDropdown].forEach(item => {
+                    const option = document.createElement("option");
+                    option.value = item;
+                    option.textContent = item;
+                    secondDropdown.appendChild(option);
+                });
+            }
+        }
+
+        // Function to show success modal
+        function showSuccessModal() {
+            $('#successModal').modal('show');
+            return true; // Allow form submission to continue
+        }
+    </script>
+</body>
+
+</html>

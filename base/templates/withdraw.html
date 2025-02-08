@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2> <i class="fas fa-user"></i> Dear  {{ user.username }}</h2><br><h3>{{ user.email }}</h3>
+</body>
+<tr>
+    <td colspan="2" style="text-align: right; font-weight: bold;">Total Earnings:</td>
+    <td style="font-weight: bold;">₹{{ total_earnings|floatformat:2 }}</td>
+</tr>
+<tr>
+</html>

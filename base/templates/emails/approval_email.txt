@@ -1,0 +1,5 @@
+
+New Book Submission: {{ book.title }}
+Please approve or reject this submission using the following links:
+Approve: {{ approval_link }}
+Reject: {{ rejection_link }}
